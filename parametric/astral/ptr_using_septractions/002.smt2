@@ -1,0 +1,18 @@
+(set-info :source Astral)
+(set-info :status sat)
+
+(declare-sort Loc 0)
+(declare-heap (Loc Loc))
+
+(declare-const x1 Loc)
+(declare-const x2 Loc)
+
+(assert
+  (sep
+    (not (wand sep.emp (not (pto x1 x2))))
+    (not (wand sep.emp (not (pto x2 x1))))
+  )
+)
+
+
+(check-sat)
