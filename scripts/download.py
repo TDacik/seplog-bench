@@ -1,4 +1,4 @@
-"""Benchmark downloading
+""" Benchmark downloading
 
 Author: Tomas Dacik (idacik@fit.vut.cz), 2023
 """
@@ -14,6 +14,7 @@ from utils import read_config, init_dir
 
 CONFIG = "configs/sources.yaml"
 
+
 def download(name, url, path):
     with tempfile.TemporaryDirectory() as tmp_dir:
         # Clone repository
@@ -24,11 +25,13 @@ def download(name, url, path):
         dst = os.path.join("benchmarks/original", name)
         shutil.copytree(src, dst)
 
+
 def process(config):
     for name, entries in config.items():
         url = entries["url"]
         path = entries["path"]
         download(name.lower(), url, path)
+
 
 if __name__ == "__main__":
     config = read_config(CONFIG)
