@@ -1,0 +1,9 @@
+# Sources of benchmarks to be downloaded
+
+SL-COMP:
+    url: "https://github.com/sl-comp/SL-COMP19"
+    path: "bench"
+
+Astral-tests:
+    url: "https://github.com/TDacik/Astral"
+    path: "benchmarks"
