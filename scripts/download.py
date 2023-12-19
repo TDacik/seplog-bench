@@ -4,36 +4,75 @@ Author: Tomas Dacik (idacik@fit.vut.cz), 2023
 """
 
 import os
-import yaml
 import shutil
 import tempfile
 
 from subprocess import run
 
-from utils import read_config, init_dir
+from utils import init_dir
 
-CONFIG = "configs/sources.yaml"
+LOCAL_BENCHMARKS = "local_benchmarks"
+BENCHMARKS_DIR = "benchmarks/original"
 
-
-def download(name, url, path):
+def download_repository(name, url, path):
+    """
+    Download repository from the given url and copy its content from path_src to path_dst.
+    """
     with tempfile.TemporaryDirectory() as tmp_dir:
         # Clone repository
         run(["git", "clone", url, tmp_dir])
 
         # Copy benchmarks
         src = os.path.join(tmp_dir, path)
-        dst = os.path.join("benchmarks/original", name)
+        dst = os.path.join(BENCHMARKS_DIR, name)
         shutil.copytree(src, dst)
 
+def download_zip(name, url, path):
+    """
+    Download .zip archiv from the given url and copy its content from path_src to path_dst.
+    """
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        # Download zip
+        run(["wget", "-P", tmp_dir, url])
 
-def process(config):
-    for name, entries in config.items():
-        url = entries["url"]
-        path = entries["path"]
-        download(name.lower(), url, path)
+        # Unzip inside tmp_dir
+        basename = os.path.basename(url)
+        zip_src = os.path.join(tmp_dir, basename)
+        run(["unzip", zip_src, "-d", tmp_dir])
 
+        # Copy
+        src = os.path.join(tmp_dir, basename[:-4], path) # Remove '.zip'
+        dst = os.path.join(BENCHMARKS_DIR, name)
+        shutil.copytree(src, dst)
+
+def copy_local():
+    dst = os.path.join(BENCHMARKS_DIR, "seplog_bench")
+    shutil.copytree(LOCAL_BENCHMARKS, dst)
 
 if __name__ == "__main__":
-    config = read_config(CONFIG)
     init_dir("benchmarks/original")
-    process(config)
+    copy_local()
+
+    download_repository(
+            name = "sl_comp",
+            url = "https://github.com/sl-comp/SL-COMP19",
+            path = "bench"
+        )
+
+    download_repository(
+            name = "astral_bench",
+            url = "https://github.com/TDacik/Astral",
+            path = "benchmarks"
+        )
+
+    download_zip(
+            name = "s2s_bench",
+            url = "https://loc.bitbucket.io/s2s/sl-comp2019.zip",
+            path = ""
+        )
+
+    download_zip(
+            name = "songbird_bench",
+            url = "https://songbird-prover.github.io/lemma-synthesis/files/benchmarks.zip",
+            path = ""
+        )
