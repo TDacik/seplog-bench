@@ -1,0 +1,59 @@
+# Configuration of solvers
+#
+# Mandatory arguments are:
+#
+#   - bin          ... name of executable
+#   - input-format ... input format (e.g., .smt2)
+#
+# The optional arguments are:
+#
+#   - benchmarks   ... TODO
+#   - workdir      ... TODO
+
+astral:
+  bin: astral
+  input-format: .smt2
+
+astralP:
+  bin: astralP.sh
+  benchmarks: astral
+  input-format: .smt2
+
+cvc5:
+  bin: cvc5
+  benchmarks: astral
+  input-format: .smt2
+
+grasshopper:
+  bin: grasshopper.native
+  workdir: solvers/bin/grasshopper
+  input-format: .spl
+
+harrsh:
+  bin: harrsh
+  workdir: solvers/bin/harrsh
+  benchmarks: original_0
+  input-format: .smt2     # Native is .hrs, but supports .smt2
+
+s2s:
+  bin: s2s
+  workdir: solvers/bin/s2s
+  input-format: .ss
+
+sloth:
+  bin: sloth.sh
+  workdir: solvers/bin/sloth
+  input-format: .smt2
+
+songbird:
+  bin: songbird
+  workdir: solvers/bin/songbird
+  input-format: .sb
+
+sls:
+  bin: sls
+  workdir: solvers/bin/sls
+  benchmarks: songbird
+  input-format: .sb
+
+
