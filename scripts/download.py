@@ -14,6 +14,7 @@ from utils import init_dir
 LOCAL_BENCHMARKS = "local_benchmarks"
 BENCHMARKS_DIR = "benchmarks/original"
 
+
 def download_repository(name, url, path):
     """
     Download repository from the given url and copy its content from path_src to path_dst.
@@ -26,6 +27,7 @@ def download_repository(name, url, path):
         src = os.path.join(tmp_dir, path)
         dst = os.path.join(BENCHMARKS_DIR, name)
         shutil.copytree(src, dst)
+
 
 def download_zip(name, url, path):
     """
@@ -41,38 +43,34 @@ def download_zip(name, url, path):
         run(["unzip", zip_src, "-d", tmp_dir])
 
         # Copy
-        src = os.path.join(tmp_dir, basename[:-4], path) # Remove '.zip'
+        src = os.path.join(tmp_dir, basename[:-4], path)  # Remove '.zip'
         dst = os.path.join(BENCHMARKS_DIR, name)
         shutil.copytree(src, dst)
+
 
 def copy_local():
     dst = os.path.join(BENCHMARKS_DIR, "seplog_bench")
     shutil.copytree(LOCAL_BENCHMARKS, dst)
+
 
 if __name__ == "__main__":
     init_dir("benchmarks/original")
     copy_local()
 
     download_repository(
-            name = "sl_comp",
-            url = "https://github.com/sl-comp/SL-COMP19",
-            path = "bench"
-        )
+        name="sl-comp", url="https://github.com/sl-comp/SL-COMP19", path="bench"
+    )
 
     download_repository(
-            name = "astral_bench",
-            url = "https://github.com/TDacik/Astral",
-            path = "benchmarks"
-        )
+        name="astral-bench", url="https://github.com/TDacik/Astral", path="benchmarks"
+    )
 
     download_zip(
-            name = "s2s_bench",
-            url = "https://loc.bitbucket.io/s2s/sl-comp2019.zip",
-            path = ""
-        )
+        name="s2s-bench", url="https://loc.bitbucket.io/s2s/sl-comp2019.zip", path=""
+    )
 
-    download_zip(
-            name = "songbird_bench",
-            url = "https://songbird-prover.github.io/lemma-synthesis/files/benchmarks.zip",
-            path = ""
-        )
+    # download_zip(
+    #        name = "songbird-bench",
+    #        url = "https://songbird-prover.github.io/lemma-synthesis/files/benchmarks.zip",
+    #        path = ""
+    #    )
