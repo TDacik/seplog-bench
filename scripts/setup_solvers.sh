@@ -49,7 +49,7 @@ function clone_and_build {
   # TODO
 }
 
-download_zip "s2s"
+download_zip "s2s" ; mv solvers/bin/s2s/s2s_run solvers/bin/s2s/s2s
 download_zip "songbird"
 
 #check_dependency "sbt" "harrsh"
