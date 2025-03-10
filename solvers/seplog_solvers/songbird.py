@@ -10,9 +10,6 @@ class Tool(Solver):
     def name(self):
         return "songbird"
 
-    def input_format(self):
-        return ".smt2"
-
     def get_status(self, output):
         for line in output:
             if "Result: Valid" in line:

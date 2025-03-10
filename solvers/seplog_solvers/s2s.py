@@ -10,8 +10,5 @@ class Tool(Solver):
     def name(self):
         return "s2s"
 
-    def input_format(self):
-        return ".ss"
-
     def get_status(self, output):
         return find_status(output)

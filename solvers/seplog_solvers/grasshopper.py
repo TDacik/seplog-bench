@@ -16,9 +16,6 @@ class Tool(Solver):
     def name(self):
         return "grasshopper"
 
-    def input_format(self):
-        return ".spl"
-
     def get_status(self, output):
         """
         The conversion for grasshopper transfer satisfiability of F to the verification

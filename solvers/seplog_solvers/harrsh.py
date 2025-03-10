@@ -14,16 +14,13 @@ class Tool(Solver):
     def name(self):
         return "harrsh"
 
-    def input_format(self):
-        return ".smt2"
-
     def get_status(self, output):
         result = output[-1]
-        if result == Status.UNSAT:
+        if result == UNSAT:
             return "unsat"
-        if result == Status.SAT:
+        if result == SAT:
             return "sat"
-        if result == Status.UNKNOWN:
+        if result == UNKNOWN:
             return "unknown"
 
         assert False

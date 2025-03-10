@@ -10,9 +10,6 @@ class Tool(Solver):
     def name(self):
         return "sloth"
 
-    def input_format(self):
-        return ".smt2"
-
     def get_status(self, output):
         print(output)
         try:

@@ -10,8 +10,5 @@ class Tool(Solver):
     def name(self):
         return "astral"
 
-    def input_format(self):
-        return ".smt2"
-
     def get_status(self, output):
         return find_status(output)
