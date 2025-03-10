@@ -54,8 +54,8 @@ class BenchmarkDef:
         root.insert(1, comment)
 
         root.set("tool", "seplog_solvers." + solver)
-        root.set("timelimit", str(self.time))
-        root.set("memlimit", str(self.memory))
+        root.set("timelimit", str(self.time) + "s")
+        root.set("memlimit", str(self.memory) + "MB")
         root.set("cpuCores", str(self.cores))
         root.set("threads", str(self.threads))
 
