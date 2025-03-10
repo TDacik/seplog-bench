@@ -1,6 +1,6 @@
 # Benchexec tool info for the Astral solver
 #
-# Author: Tomas Dacik (xdacik00@fit.vutbr.cz), 2023
+# Author: Tomas Dacik (idacik@fit.vut.cz), 2023
 
 from .template import Solver
 from .utils import find_status
