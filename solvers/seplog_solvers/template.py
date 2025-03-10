@@ -25,11 +25,6 @@ class Solver(BaseTool2):
         pass
 
     @abstractmethod
-    def input_format(self):
-        """Input format of the solver (e.g., .smt2)."""
-        pass
-
-    @abstractmethod
     def get_status(self):
         """How to read status from output."""
         pass
@@ -53,25 +48,18 @@ class Solver(BaseTool2):
         return [executable, *options, *task.input_files_or_identifier]
 
     def determine_result(self, run):
-        if run.was_terminated:
-            return result.RESULT_UNKNOWN
-
-        # if run.exit_code:
-        #    return result.RESULT_ERROR
+        if run.exit_code:
+            return result.RESULT_ERROR
 
         status = self.get_status(run.output)
-        expected = expected_status(self, run)
 
-        if expected == "unknown":
-            return result.CATEGORY_MISSING
-
-        if status == expected and status.is_answer():
+        if status == Status.SAT:
             return result.RESULT_TRUE_PROP
 
-        if status != expected and status.is_answer():
+        if status == Status.UNSAT:
             return result.RESULT_FALSE_PROP
 
-        if status == "unknown":
+        if status == Status.UNKNOWN:
             return result.RESULT_UNKNOWN
 
         return result.RESULT_ERROR
