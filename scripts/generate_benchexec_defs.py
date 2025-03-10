@@ -54,18 +54,23 @@ class BenchmarkDef:
         root.insert(1, comment)
 
         root.set("tool", "seplog_solvers." + solver)
+
+        """
         root.set("timelimit", str(self.time) + "s")
         root.set("memlimit", str(self.memory) + "MB")
         root.set("cpuCores", str(self.cores))
         root.set("threads", str(self.threads))
+        """
 
         rundef = ET.SubElement(root, "rundefinition")
 
         tasks = ET.SubElement(root, "tasks")
         tasks.set("name", self.name)
 
+        depth = len(out_path.split("/")) - 1 # Minus one for file itself
         for task in self.tasks:
-            task_path = f"benchmarks/{Config.benchmark_dir(solver)}/{task}"
+            prefix = "../" * depth
+            task_path = f"{prefix}benchmarks/{Config.benchmark_dir(solver)}/{task}"
             include = ET.SubElement(tasks, "include")
             include.text = task_path
 
