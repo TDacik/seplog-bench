@@ -90,7 +90,7 @@ http://www.liafa.univ-paris-diderot.fr/spen
 (declare-const x2_2 RefDNLL_lvl_1_t)
 
 
-(declare-const aux RefDNLL_lvl_1_t)
+(declare-const aux RefDNLL_lvl_2_t)
 
 (assert
 		(sep

@@ -103,7 +103,7 @@ http://www.liafa.univ-paris-diderot.fr/spen
 )
 
 (assert (not
-			(dnll x1 (as nil RefDNLL_lvl_2_t) x2 (as nil RefDNLL_lvl_1_t) (as nil RefDNLL_lvl_1_t) )
+			(dnll x1 (as nil RefDNLL_lvl_2_t) x2 (as nil RefDNLL_lvl_2_t) (as nil RefDNLL_lvl_1_t) )
 ))
 
 (check-sat)
