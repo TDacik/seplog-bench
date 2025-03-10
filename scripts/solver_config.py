@@ -27,7 +27,7 @@ class SolverConfig:
             binary=yml.get("binary", name),
             workdir=yml.get("workdir", None),
             input_format=yml["input-format"],
-            benchmark_dir=yml.get("benchmarks", name),
+            benchmark_dir=yml.get("benchmarks", "original"),
         )
 
 
