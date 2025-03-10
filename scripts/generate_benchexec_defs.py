@@ -72,7 +72,7 @@ class BenchmarkDef:
             f.write(
                 f"<!-- This file has been automatically generated from {self.origin} -->\n\n"
             )
-            f.write(pretty_xml)
+            f.write(pretty_xml, xml_declarations=False)
 
     def to_benchexec_xml(self, out_dir):
         os.makedirs(out_dir)
