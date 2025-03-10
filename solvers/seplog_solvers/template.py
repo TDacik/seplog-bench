@@ -32,8 +32,6 @@ class Solver(BaseTool2):
     ## Benchexec tool info
 
     def __init__(self):
-        self.input_format = self.input_format()
-
         config = load_config(CONFIG)[self.name()]
         self.bin = config["bin"]
         self.workdir = load_option(config, "workdir", None)
