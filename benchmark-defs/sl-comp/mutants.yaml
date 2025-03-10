@@ -10,7 +10,9 @@ tasks:
   - "sl-comp_mutants/*/*.smt2"
 
 solvers:
-  - "astral"
+  - "astral":
+    - "--semantics": imprecise
+    - "--backend": bitwuzla
   - "s2s"
   - "songbird"
   - "harrsh"

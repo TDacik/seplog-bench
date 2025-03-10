@@ -68,5 +68,5 @@ class Config:
 if __name__ == "__main__":
     print("Reading configuration from " + CONFIG + ":")
 
-    c = Config.from_file(CONFIG)
-    print(c)
+    Config.load()
+    print(Config.content)

@@ -17,6 +17,27 @@ from solver_config import Config
 INPUT_DEF_PATH = "benchmark-defs"
 OUTPUT_DEF_PATH = "benchexec-defs"
 
+@dataclass
+class Solver:
+    name: str
+    options: list[tuple[str, str]]
+
+    @classmethod
+    def of_yaml(cls, data):
+        if isinstance(data, str):
+            return cls(data, [])
+
+        assert(len(data) == 1)
+        name = next(iter(data))
+        config = data[name]
+
+        options = []
+        for c in config:
+            key = next(iter(c))
+            value = c[key]
+            options.append((key, value))
+
+        return cls(name, options)
 
 @dataclass
 class BenchmarkDef:
@@ -28,7 +49,7 @@ class BenchmarkDef:
     cores: int
     threads: int
 
-    solvers: list[str]
+    solvers: list[Solver]
     tasks: list[str]
 
     @classmethod
@@ -43,7 +64,7 @@ class BenchmarkDef:
             memory=int(data["limits"]["memory"]),
             cores=int(data["limits"]["cores"]),
             threads=int(data["limits"]["threads"]),
-            solvers=data["solvers"],
+            solvers=[Solver.of_yaml(solver) for solver in data["solvers"]],
             tasks=data["tasks"],
         )
 
@@ -53,7 +74,7 @@ class BenchmarkDef:
         comment = ET.Comment(f"This file has been automatically generated from {self.origin}")
         root.insert(1, comment)
 
-        root.set("tool", "seplog_solvers." + solver)
+        root.set("tool", "seplog_solvers." + solver.name)
 
         """
         root.set("timelimit", str(self.time) + "s")
@@ -63,6 +84,11 @@ class BenchmarkDef:
         """
 
         rundef = ET.SubElement(root, "rundefinition")
+        for name, value in solver.options:
+            option = ET.SubElement(rundef, "option")
+            option.set("name", name)
+            option.text = value
+
 
         tasks = ET.SubElement(root, "tasks")
         tasks.set("name", self.name)
@@ -70,7 +96,7 @@ class BenchmarkDef:
         depth = len(out_path.split("/")) - 1 # Minus one for file itself
         for task in self.tasks:
             prefix = "../" * depth
-            task_path = f"{prefix}benchmarks/{Config.benchmark_dir(solver)}/{task}"
+            task_path = f"{prefix}benchmarks/{Config.benchmark_dir(solver.name)}/{task}"
             include = ET.SubElement(tasks, "include")
             include.text = task_path
 
@@ -83,7 +109,7 @@ class BenchmarkDef:
     def to_benchexec_xml(self, out_dir):
         os.makedirs(out_dir)
         for solver in self.solvers:
-            path = os.path.join(out_dir, solver + ".xml")
+            path = os.path.join(out_dir, solver.name + ".xml")
             self.to_benchexec_single_solver(solver, path)
 
 
