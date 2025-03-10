@@ -49,6 +49,10 @@ class BenchmarkDef:
 
     def to_benchexec_single_solver(self, solver, out_path):
         root = ET.Element("benchmark")
+
+        comment = ET.Comment(f"This file has been automatically generated from {self.origin}")
+        root.insert(1, comment)
+
         root.set("tool", "seplog_solvers." + solver)
         root.set("timelimit", str(self.time))
         root.set("memlimit", str(self.memory))
@@ -69,9 +73,6 @@ class BenchmarkDef:
         pretty_xml = MD.parseString(xml_str).toprettyxml(indent="  ")
 
         with open(out_path, "w") as f:
-            f.write(
-                f"<!-- This file has been automatically generated from {self.origin} -->\n\n"
-            )
             f.write(pretty_xml)
 
     def to_benchexec_xml(self, out_dir):
