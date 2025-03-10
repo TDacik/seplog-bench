@@ -1,0 +1,16 @@
+name: "SL-COMP (modified)"
+
+limits:
+  time: 60
+  memory: 1000
+  cores: 1
+  threads: 1
+
+tasks:
+  - "sl-comp_mutants/*/*.smt2"
+
+solvers:
+  - "astral"
+  - "s2s"
+  - "songbird"
+  - "harrsh"
