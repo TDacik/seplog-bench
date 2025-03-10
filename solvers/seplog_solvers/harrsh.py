@@ -17,13 +17,13 @@ class Tool(Solver):
     def get_status(self, output):
         result = output[-1]
         if result == UNSAT:
-            return "unsat"
+            return Status.UNSAT
         if result == SAT:
-            return "sat"
+            return Status.SAT
         if result == UNKNOWN:
-            return "unknown"
+            return Status.UNKNOWN
 
-        assert False
+        assert False, result
 
     def cmdline(self, executable, options, task, rlimits):
         return [executable, "-e", *options, task.single_input_file]
