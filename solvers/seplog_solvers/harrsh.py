@@ -25,5 +25,5 @@ class Tool(Solver):
 
         assert False, result
 
-    def cmdline(self, executable, options, task, rlimits):
+    def _cmdline(self, executable, options, task, rlimits):
         return [executable, "-e", *options, task.single_input_file]

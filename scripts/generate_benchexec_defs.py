@@ -12,6 +12,7 @@ import xml.dom.minidom as MD
 from pathlib import Path
 from dataclasses import dataclass
 
+from utils import init_dir
 from solver_config import Config
 
 INPUT_DEF_PATH = "benchmark-defs"
@@ -96,7 +97,9 @@ class BenchmarkDef:
         depth = len(out_path.split("/")) - 1 # Minus one for file itself
         for task in self.tasks:
             prefix = "../" * depth
-            task_path = f"{prefix}benchmarks/{Config.benchmark_dir(solver.name)}/{task}"
+            # Tasks are defined over un-preprocessed files. The runner substitutes
+            # actual files passed to solvers to processed ones.
+            task_path = f"{prefix}benchmarks/original/{task}"
             include = ET.SubElement(tasks, "include")
             include.text = task_path
 
@@ -107,7 +110,7 @@ class BenchmarkDef:
             f.write(pretty_xml)
 
     def to_benchexec_xml(self, out_dir):
-        os.makedirs(out_dir)
+        init_dir(out_dir)
         for solver in self.solvers:
             path = os.path.join(out_dir, solver.name + ".xml")
             self.to_benchexec_single_solver(solver, path)
