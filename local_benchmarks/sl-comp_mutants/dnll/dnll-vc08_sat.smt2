@@ -7,7 +7,7 @@ http://www.liafa.univ-paris-diderot.fr/spen
 |)
 (set-info :smt-lib-version 2.0)
 (set-info :category "crafted")
-(set-info :status unsat)
+(set-info :status sat)
 
 
 ; Sorts for locations, one by cell sort
