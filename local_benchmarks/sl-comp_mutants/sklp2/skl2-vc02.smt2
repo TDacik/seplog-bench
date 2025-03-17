@@ -7,7 +7,7 @@ http://www.liafa.univ-paris-diderot.fr/spen
 |)
 (set-info :smt-lib-version 2.0)
 (set-info :category "crafted")
-(set-info :status sat)
+(set-info :status unsat)
 
 
 ; Sorts for locations, one by cell sort
@@ -81,12 +81,14 @@ http://www.liafa.univ-paris-diderot.fr/spen
 (declare-const x1 RefSL2_t)
 (declare-const x1_1 RefSL2_t)
 (declare-const x2 RefSL2_t)
+(declare-const x2_1 RefSL2_t)
 
 (assert
 		(sep
 			(pto x1 (c_SL2_t x1_1 x2 ))
 			(pto x1_1 (c_SL2_t x2 (as nil RefSL2_t) ))
-			(pto x2 (c_SL2_t (as nil RefSL2_t) (as nil RefSL2_t) ))
+			(pto x2 (c_SL2_t x2_1 (as nil RefSL2_t) ))
+			(pto x2_1 (c_SL2_t (as nil RefSL2_t) (as nil RefSL2_t)))
 		)
 
 )

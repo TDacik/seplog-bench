@@ -24,21 +24,21 @@ Quang Loc Le Q.Le@tees.ac.uk
 
 ; Type of heap
 
-(declare-heap (RefSL2_t SL2_t) 
+(declare-heap (RefSL2_t SL2_t)
 )
 
 (define-fun-rec skl1 ((hd RefSL2_t)(ex RefSL2_t)) Bool
-	(or 
-		(and 
+	(or
+		(and
 			(= hd ex)
 			(_ emp RefSL2_t SL2_t)
 		)
 
 		(exists ((tl RefSL2_t))
-	 
-		(and 
+
+		(and
 			(distinct hd ex)
-		(sep 
+		(sep
 			(pto hd (c_SL2_t tl (as nil RefSL2_t) ))
 			(skl1 tl ex )
 		)
@@ -51,17 +51,18 @@ Quang Loc Le Q.Le@tees.ac.uk
 )
 
 (define-fun-rec skl2 ((hd RefSL2_t)(ex RefSL2_t)) Bool
-	(or 
-		(and 
+	(or
+		(and
 			(= hd ex)
 			(_ emp RefSL2_t SL2_t)
 		)
 
 		(exists ((tl RefSL2_t)(Z1 RefSL2_t))
-	 
-		(and 
+
+		(and
 			(distinct hd ex)
-		(sep 
+			(distinct tl Z1)
+		(sep
 			(pto hd (c_SL2_t Z1 tl ))
 			(skl1 Z1 tl )
 			(skl2 tl ex )
@@ -75,7 +76,7 @@ Quang Loc Le Q.Le@tees.ac.uk
 )
 
 
-(check-sat) 
+(check-sat)
 ;; variables
 (declare-const x1 RefSL2_t)
 (declare-const x1_1 RefSL2_t)
@@ -83,6 +84,7 @@ Quang Loc Le Q.Le@tees.ac.uk
 (declare-const x1_3 RefSL2_t)
 (declare-const x1_4 RefSL2_t)
 (declare-const x2 RefSL2_t)
+(declare-const x2_1 RefSL2_t)
 (declare-const x3 RefSL2_t)
 (declare-const x3_1 RefSL2_t)
 (declare-const x3_2 RefSL2_t)
@@ -91,15 +93,16 @@ Quang Loc Le Q.Le@tees.ac.uk
 (declare-const x6 RefSL2_t)
 (declare-const x7 RefSL2_t)
 
-(assert 
-		(sep 
+(assert
+		(sep
 			(skl2 x4 x5 )
 			(pto x5 (c_SL2_t x6 x7 ))
 			(skl1 x7 x6 )
 			(pto x1 (c_SL2_t x1_1 x2 ))
 			(pto x1_1 (c_SL2_t x1_2 (as nil RefSL2_t) ))
 			(skl1 x1_2 x2 )
-			(pto x2 (c_SL2_t (as nil RefSL2_t) (as nil RefSL2_t) ))
+			(pto x2 (c_SL2_t x2_1 (as nil RefSL2_t) ))
+			(pto x2_1 (c_SL2_t (as nil RefSL2_t) (as nil RefSL2_t) ))
 		)
 
 )

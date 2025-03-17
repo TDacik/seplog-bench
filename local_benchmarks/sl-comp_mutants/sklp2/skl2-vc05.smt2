@@ -84,6 +84,7 @@ Quang Loc Le Q.Le@tees.ac.uk
 (declare-const x1_3 RefSL2_t)
 (declare-const x1_4 RefSL2_t)
 (declare-const x2 RefSL2_t)
+(declare-const x2_1 RefSL2_t)
 (declare-const x3 RefSL2_t)
 (declare-const x3_1 RefSL2_t)
 (declare-const x3_2 RefSL2_t)
@@ -98,7 +99,9 @@ Quang Loc Le Q.Le@tees.ac.uk
 			(pto x1 (c_SL2_t x1_1 x2 ))
 			(pto x1_1 (c_SL2_t x1_2 (as nil RefSL2_t) ))
 			(skl1 x1_2 x2 )
-			(pto x2 (c_SL2_t (as nil RefSL2_t) (as nil RefSL2_t) ))
+			(pto x2 (c_SL2_t x2_1 (as nil RefSL2_t) ))
+			(pto x2_1 (c_SL2_t (as nil RefSL2_t) (as nil RefSL2_t) ))
+
 		)
 
 )
