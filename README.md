@@ -1,6 +1,12 @@
 # Benchmark for Evaluation of Separation Logic Solvers
 
-## Dependencies
+## Setup
+
+Install the following dependencies:
+
+```bash
+pip3 install benchexec
+```
 
 ## Usage
 

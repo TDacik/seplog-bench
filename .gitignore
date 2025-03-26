@@ -1,0 +1,6 @@
+# Generated files
+benchmarks
+benchexec-defs
+run
+
+solvers/bin
