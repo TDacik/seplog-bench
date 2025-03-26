@@ -17,6 +17,7 @@ from solver_config import Config
 
 INPUT_DEF_PATH = "benchmark-defs"
 OUTPUT_DEF_PATH = "benchexec-defs"
+OUTPUT_RUN_PATH = "run"
 
 @dataclass
 class Solver:
@@ -77,12 +78,10 @@ class BenchmarkDef:
 
         root.set("tool", "seplog_solvers." + solver.name)
 
-        """
         root.set("timelimit", str(self.time) + "s")
         root.set("memlimit", str(self.memory) + "MB")
         root.set("cpuCores", str(self.cores))
         root.set("threads", str(self.threads))
-        """
 
         rundef = ET.SubElement(root, "rundefinition")
         for name, value in solver.options:
@@ -103,6 +102,16 @@ class BenchmarkDef:
             include = ET.SubElement(tasks, "include")
             include.text = task_path
 
+        propertyfile = ET.SubElement(tasks, "propertyfile")
+        propertyfile.text = "properties/sat.prp"
+
+        # Generate statistics columns for Astral
+        if solver.name == "astral":
+            columns = ET.SubElement(root, "columns")
+            c1 = ET.SubElement(columns, "column")
+            c1.set("title", "Translation size")
+            c1.text = "Formula size"
+
         xml_str = ET.tostring(root, encoding="utf-8")
         pretty_xml = MD.parseString(xml_str).toprettyxml(indent="  ")
 
@@ -114,6 +123,19 @@ class BenchmarkDef:
         for solver in self.solvers:
             path = os.path.join(out_dir, solver.name + ".xml")
             self.to_benchexec_single_solver(solver, path)
+
+    def generate_run_file(self, out_dir, def_dir):
+        init_dir(out_dir)
+        for solver in self.solvers:
+            path = os.path.join(out_dir, solver.name + ".sh")
+            def_path = os.path.join(def_dir, solver.name + ".xml")
+            with open(path, "w") as f:
+                f.write(f"benchexec \"$@\" {def_path}")
+
+            all_path = os.path.join(out_dir, "all.sh")
+            def_path = os.path.join(def_dir, "*.xml")
+            with open(all_path, "w") as f:
+                f.write(f"benchexec \"$@\" {def_path}")
 
 
 def process_def(dirname, filename):
@@ -128,6 +150,9 @@ def process_def(dirname, filename):
 
     bench_def = BenchmarkDef.load(path)
     bench_def.to_benchexec_xml(out_path)
+
+    run_path = os.path.join(OUTPUT_RUN_PATH, *categories, filename[:-5])
+    bench_def.generate_run_file(run_path, out_path)
 
 
 if __name__ == "__main__":

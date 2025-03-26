@@ -64,13 +64,3 @@ if __name__ == "__main__":
     download_repository(
         name="astral-bench", url="https://github.com/TDacik/Astral", path="benchmarks"
     )
-
-    download_zip(
-        name="s2s-bench", url="https://loc.bitbucket.io/s2s/sl-comp2019.zip", path=""
-    )
-
-    # download_zip(
-    #        name = "songbird-bench",
-    #        url = "https://songbird-prover.github.io/lemma-synthesis/files/benchmarks.zip",
-    #        path = ""
-    #    )

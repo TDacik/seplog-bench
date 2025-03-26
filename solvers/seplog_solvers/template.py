@@ -29,14 +29,14 @@ class Solver(BaseTool2):
         """How to read status from output."""
         pass
 
-    def _cmdline(self):
+    def _cmdline(self, executable, options, single_input_file, rlimits):
         """Default implementation of cmdline"""
-        return [executable, *options, *task.input_files_or_identifier]
+        return [executable, *options, single_input_files]
 
     ## Benchexec tool info
 
     def __init__(self):
-        config = load_config(CONFIG)[self.name()]
+        config = load_config(CONFIG)[self.name().lower()]
         self.bin = config["bin"]
         self.workdir = load_option(config, "workdir", None)
 
@@ -46,16 +46,16 @@ class Solver(BaseTool2):
     def working_directory(self, executable):
         return self.workdir
 
-    def process(self, task):
-        return task.substitute("original", load_config(CONFIG)[self.name()]["benchmark-dir"]
-
     def cmdline(self, executable, options, task, rlimits):
         """
         Tasks are defined using non-processed files. Here, we substitute them
         for their preprocessed variants using information from configuration file.
         """
-        task.input_files = [self.process(task) for task in task.input_files]
-        return self._cmdline(executable, options, task, rlimits)
+        config = load_config(CONFIG)[self.name().lower()]
+        name = config.get("benchmarks", "original")
+        input_file = task.single_input_file.replace("original", name)
+
+        return self._cmdline(executable, options, input_file, rlimits)
 
 
 
